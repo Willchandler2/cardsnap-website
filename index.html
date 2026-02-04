@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CardSnap Golf - Snap your scorecard. Settle your skins. The easiest way to calculate golf skins, Stableford, and Nassau.">
+    <meta name="keywords" content="golf, skins, scorecard, OCR, golf app, skins calculator, nassau, stableford">
+    <title>CardSnap Golf - Snap your scorecard. Settle your skins.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .nav-logo img {
+            height: 40px;
+            width: 40px;
+            border-radius: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #888;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 160px 0 100px;
+            text-align: center;
+        }
+
+        .hero-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            color: #4CAF50;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            color: #888;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .app-store-btn {
+            display: inline-block;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .app-store-btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .app-store-btn img {
+            height: 54px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: #222;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: #2a2a2a;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #333;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #4CAF50;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #888;
+            font-size: 0.95rem;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 80px 0;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            text-align: center;
+            max-width: 280px;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+
+        .step h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: #888;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+        }
+
+        .cta h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        /* Legal Sections */
+        .legal {
+            padding: 80px 0;
+            background: #222;
+        }
+
+        .legal h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #4CAF50;
+        }
+
+        .legal h3 {
+            font-size: 1.2rem;
+            margin: 30px 0 15px;
+            color: #fff;
+        }
+
+        .legal p, .legal li {
+            color: #aaa;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .legal ul {
+            padding-left: 25px;
+            margin-bottom: 20px;
+        }
+
+        .legal-section {
+            margin-bottom: 60px;
+        }
+
+        .legal-section:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: #4CAF50;
+        }
+
+        .copyright {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .steps {
+                gap: 40px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="nav-logo">
+                <img src="logo.png" alt="CardSnap Golf Logo">
+                <span>CardSnap Golf</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#privacy">Privacy</a>
+                <a href="#terms">Terms</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-logo">
+                <img src="logo.png" alt="CardSnap Golf">
+            </div>
+            <h1>CardSnap Golf</h1>
+            <p class="tagline">Snap your scorecard. Settle your skins.</p>
+            <p class="subtitle">The fastest way to calculate golf skins, Stableford, Nassau, and more. Just take a photo of your scorecard and let the app do the math.</p>
+            <a href="https://apps.apple.com/us/app/cardsnap-golf/id6758072353" class="app-store-btn">
+                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Everything You Need to Settle Up</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📸</div>
+                    <h3>OCR Scorecard Scanning</h3>
+                    <p>Just snap a photo of your scorecard. Our AI reads all the scores instantly—no manual entry required.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Gross & Net Skins</h3>
+                    <p>Calculate skins with or without handicaps. Supports both carryover and no-carryover formats.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Stableford Points</h3>
+                    <p>Automatic point calculation based on your scores and handicap. See who really won.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Nassau Scoring</h3>
+                    <p>Front nine, back nine, and total. The classic bet, calculated automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Payout Calculator</h3>
+                    <p>Enter your stakes—fixed per skin or pool split—and see exactly who owes what.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🗂️</div>
+                    <h3>Scorecard Storage</h3>
+                    <p>Every scorecard photo is saved. Go back and verify any round, anytime.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Snap</h3>
+                    <p>Take a photo of your scorecard after your round. Our OCR technology reads all the scores.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Calculate</h3>
+                    <p>Choose your game—Skins, Stableford, Nassau—and the app instantly calculates the results.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Settle</h3>
+                    <p>See who won, enter your stakes, and settle up. No more arguments at the 19th hole.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Settle Your Skins?</h2>
+            <p>Download CardSnap Golf and never argue about the math again.</p>
+            <a href="https://apps.apple.com/us/app/cardsnap-golf/id6758072353" class="app-store-btn">
+                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+            </a>
+        </div>
+    </section>
+
+    <!-- Legal Section -->
+    <section class="legal" id="privacy">
+        <div class="container">
+            <div class="legal-section">
+                <h2>Privacy Policy</h2>
+                <p><strong>Last Updated: February 4, 2026</strong></p>
+                
+                <h3>Introduction</h3>
+                <p>CardSnap Golf ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.</p>
+                
+                <h3>Information We Collect</h3>
+                <p>We collect the following types of information:</p>
+                <ul>
+                    <li><strong>Account Information:</strong> When you create an account, we collect your email address and display name.</li>
+                    <li><strong>Golf Data:</strong> Scorecard photos, player names, scores, and round history that you input into the app.</li>
+                    <li><strong>Device Information:</strong> Basic device information for app functionality and crash reporting.</li>
+                </ul>
+                
+                <h3>How We Use Your Information</h3>
+                <p>We use your information to:</p>
+                <ul>
+                    <li>Provide and improve our golf scoring and calculation services</li>
+                    <li>Store your round history and scorecard photos</li>
+                    <li>Process your subscription payments</li>
+                    <li>Send important updates about the app</li>
+                </ul>
+                
+                <h3>Data Storage and Security</h3>
+                <p>Your data is stored securely using Supabase, a trusted cloud database provider. Scorecard photos are stored in secure cloud storage. We use industry-standard encryption to protect your data in transit and at rest.</p>
+                
+                <h3>Third-Party Services</h3>
+                <p>We use the following third-party services:</p>
+                <ul>
+                    <li><strong>Supabase:</strong> For secure data storage and authentication</li>
+                    <li><strong>AWS Textract:</strong> For OCR scorecard scanning</li>
+                    <li><strong>RevenueCat:</strong> For subscription management</li>
+                    <li><strong>Apple App Store:</strong> For payment processing</li>
+                </ul>
+                
+                <h3>Data Retention</h3>
+                <p>We retain your data for as long as your account is active. You can request deletion of your account and all associated data at any time by contacting us or using the delete account feature in the app.</p>
+                
+                <h3>Your Rights</h3>
+                <p>You have the right to:</p>
+                <ul>
+                    <li>Access your personal data</li>
+                    <li>Correct inaccurate data</li>
+                    <li>Delete your account and data</li>
+                    <li>Export your data</li>
+                </ul>
+                
+                <h3>Children's Privacy</h3>
+                <p>CardSnap Golf is not intended for children under 13. We do not knowingly collect information from children under 13.</p>
+                
+                <h3>Changes to This Policy</h3>
+                <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last Updated" date.</p>
+                
+                <h3>Contact Us</h3>
+                <p>If you have questions about this Privacy Policy, please contact us at:<br>
+                <a href="mailto:support@cardsnapgolf.com">support@cardsnapgolf.com</a></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="legal" id="terms" style="background: #1a1a1a;">
+        <div class="container">
+            <div class="legal-section">
+                <h2>Terms of Service</h2>
+                <p><strong>Last Updated: February 4, 2026</strong></p>
+                
+                <h3>Agreement to Terms</h3>
+                <p>By downloading or using CardSnap Golf, you agree to be bound by these Terms of Service. If you do not agree to these terms, do not use the app.</p>
+                
+                <h3>Description of Service</h3>
+                <p>CardSnap Golf is a mobile application that helps golfers calculate skins, Stableford points, Nassau scores, and other golf betting games using OCR technology to scan scorecards.</p>
+                
+                <h3>User Accounts</h3>
+                <p>You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must provide accurate information when creating an account.</p>
+                
+                <h3>Subscriptions and Payments</h3>
+                <ul>
+                    <li>CardSnap Golf offers a free trial of 2 rounds</li>
+                    <li>After the free trial, a subscription is required for unlimited rounds</li>
+                    <li>Subscriptions are billed through the Apple App Store</li>
+                    <li>You can cancel your subscription at any time through your App Store settings</li>
+                    <li>Refunds are handled according to Apple's refund policy</li>
+                </ul>
+                
+                <h3>Acceptable Use</h3>
+                <p>You agree not to:</p>
+                <ul>
+                    <li>Use the app for any illegal purpose</li>
+                    <li>Attempt to reverse engineer or hack the app</li>
+                    <li>Share your account with others</li>
+                    <li>Upload malicious content or spam</li>
+                </ul>
+                
+                <h3>Disclaimer</h3>
+                <p>CardSnap Golf is provided "as is" without warranties of any kind. We do not guarantee the accuracy of OCR scanning or calculations. Always verify important results manually. We are not responsible for any disputes arising from golf bets or wagers.</p>
+                
+                <h3>Limitation of Liability</h3>
+                <p>To the maximum extent permitted by law, CardSnap Golf and its creator shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the app.</p>
+                
+                <h3>Changes to Terms</h3>
+                <p>We reserve the right to modify these terms at any time. Continued use of the app after changes constitutes acceptance of the new terms.</p>
+                
+                <h3>Governing Law</h3>
+                <p>These terms shall be governed by the laws of the United States and the State of North Carolina.</p>
+                
+                <h3>Contact</h3>
+                <p>For questions about these Terms of Service, contact us at:<br>
+                <a href="mailto:support@cardsnapgolf.com">support@cardsnapgolf.com</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="mailto:support@cardsnapgolf.com">Contact</a>
+            </div>
+            <p class="copyright">© 2026 Will Chandler. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
